@@ -489,6 +489,7 @@ function decorateSections(main) {
       });
       sectionMeta.parentNode.remove();
     }
+    wrapImgsInLinks(section);
   });
 }
 
@@ -714,6 +715,21 @@ function decorateLinkedPictures(block) {
   });
 }
 
+/**
+ * Wraps images followed by links within a matching <a> tag.
+ * @param {Element} element The container element
+ */
+function wrapImgsInLinks(element) {
+  const pictures = element.querySelectorAll('picture');
+  pictures.forEach((pic) => {
+    const link = pic.nextElementSibling;
+    if (link && link.tagName === 'A' && link.href) {
+      link.innerHTML = pic.outerHTML;
+      pic.replaceWith(link);
+    }
+  });
+}
+
 init();
 
 export {
@@ -742,4 +758,5 @@ export {
   toClassName,
   waitForFirstImage,
   wrapTextNodes,
+  wrapImgsInLinks
 };
